@@ -17,8 +17,17 @@ type macTransformer struct {
 
 func NewFileTransformer() proxy.Transformer {
 	return &macTransformer{
-		ipmac: readIPMacMap(),
+		ipmac: readIPMacMap(getFilePath()),
 	}
+}
+
+func getFilePath() string {
+	path, exists := os.LookupEnv("MAC_FILE")
+	if exists {
+		return path
+	}
+
+	return "/var/lib/promscan/all"
 }
 
 func (trans *macTransformer) Transform(line string) string {
@@ -41,9 +50,9 @@ func getMac(ipmac map[string]string, line string) string {
 	return "UNKNOWN"
 }
 
-func readIPMacMap() map[string]string {
+func readIPMacMap(filePath string) map[string]string {
 	ipmac := make(map[string]string)
-	file, err := os.Open("./all") // TODO
+	file, err := os.Open(filePath)
 	if err != nil {
 		log.Fatal(err)
 	}
