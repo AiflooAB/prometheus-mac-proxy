@@ -1,6 +1,6 @@
 Package: prometheus-mac-proxy
 Architecture: all
 Maintainer: linus <linus@noomi.com>
-Depends: fping
+Depends: fping, prometheus-fping, prometheus-netscanner
 Description: Add mac-address to a prometheus exporter for metrics with a label
  of "ip"
