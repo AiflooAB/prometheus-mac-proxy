@@ -26,7 +26,8 @@ case "$1" in
     fi
 
       systemctl daemon-reload
-      systemctl enable --now prometheus-mac-proxy.service
+      systemctl enable prometheus-mac-proxy.service
+      systemctl restart prometheus-mac-proxy.service
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
