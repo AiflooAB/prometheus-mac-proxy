@@ -1,0 +1,22 @@
+[Unit]
+Description=Prometheus MAC proxy
+After=network.target prometheus-fping.service
+
+[Service]
+User=prometheus-mac-proxy
+Group=prometheus-mac-proxy
+ExecStart=/usr/bin/prometheus-mac-proxy
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+
+SyslogIdentifier=prometheus-mac-proxy
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
