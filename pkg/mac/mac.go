@@ -11,10 +11,14 @@ import (
 	"github.com/AiflooAB/prometheus-mac-proxy/pkg/proxy"
 )
 
-type macTransformer struct{}
+type macTransformer struct {
+	ipmac map[string]string
+}
 
 func NewFileTransformer() proxy.Transformer {
-	return &macTransformer{}
+	return &macTransformer{
+		ipmac: readIPMacMap(getFilePath()),
+	}
 }
 
 func getFilePath() string {
@@ -27,8 +31,7 @@ func getFilePath() string {
 }
 
 func (trans *macTransformer) Transform(line string) string {
-	ipmac := readIPMacMap(getFilePath())
-	mac := getMac(ipmac, line)
+	mac := getMac(trans.ipmac, line)
 
 	return strings.Replace(line, "ip=", fmt.Sprintf("mac=\"%s\",ip=", mac), 1)
 }
